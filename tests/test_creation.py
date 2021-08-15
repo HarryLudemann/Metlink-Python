@@ -12,5 +12,5 @@ from metlink import metlink
 
 def test_creation():
     """ Tests the main class object is instantiable """
-    metlink_obj = metlink()
+    metlink_obj = metlink('abnaisfubas')
     assert metlink_obj

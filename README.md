@@ -67,10 +67,11 @@ for pred in stop_predictions:
 ### Functions:
 | Function Name | Description   | 
 | ------------- |:-------------:| 
-| get_trip_updates      | Trip Updates - Delays, cancellations, changed routes. Given nothing, returns list of dictionaries. | 
-| get_vehicle_positions      | Vehicle Positions -  API to get Information about vehicles including location. Given nothing, returns list of dictionaries.      |  
+| get_trip_updates      | Trip Updates - Delays, cancellations, changed routes. Given nothing, returns list of dictionaries. returns empty list if no trip delays or changes | 
+| get_vehicle_positions      | Vehicle Positions -  API to get Information about vehicles including location. Given nothing, returns list of dictionaries.  if no busses are active returns empty list  |  
 | get_service_alerts | Trip Updates - Information about unforeseen events affecting routes, stops, or the network. Given nothing, returns list of dictionaries.     |  
 | get_stop_predictions | Passed stop_id, returns list of dictionary's |  
+| get_routes | Returns list of dictionarys of route infomation, optionally given stop_id as filter |  
 
 
 #### Returned Dictionary Fields:
@@ -110,3 +111,15 @@ for pred in stop_predictions:
     * arrival_time
     * trip_start_time
     * vehicle_id
+
+* **get_routes**
+    * id
+    * route_id
+    * agency_id
+    * route_short_name
+    * route_long_name
+    * route_desc
+    * route_type
+    * route_color
+    * route_text_color
+    * route_url
