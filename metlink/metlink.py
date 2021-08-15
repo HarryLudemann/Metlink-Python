@@ -34,7 +34,6 @@ class metlink():
                 'latitude': entity['vehicle']['position']['latitude'],
                 'longitude': entity['vehicle']['position']['longitude']
             }
-            print(vehicle_position)
             vehicle_positions.append(vehicle_position)
         return vehicle_positions
 
