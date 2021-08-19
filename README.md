@@ -81,7 +81,7 @@ for pred in stop_predictions:
     * departure
     * arrival
 
-* **get_service_alerts()**
+* **get_service_alerts()**   
     Trip Updates - Information about unforeseen events affecting routes, stops, or the network. Given nothing, returns list of dictionaries.   
     **Param**: N/A   
     * active_period
@@ -100,7 +100,7 @@ for pred in stop_predictions:
     * latitude
     * longitude
 
-* **get_trip_updates()**
+* **get_trip_updates()**   
     Trip Updates - Delays, cancellations, changed routes. Given nothing, returns list of dictionaries. returns empty list if no trip delays or changes   
     **Param**: N/A   
     * stop_id
@@ -109,7 +109,7 @@ for pred in stop_predictions:
     * trip_start_time
     * vehicle_id
 
-* **get_routes(stop_id=None)**
+* **get_routes(stop_id=None)**   
     Returns list of dictionarys of route infomation, optionally given stop_id as filter   
     **Param**: Optional stop_id   
     * id
