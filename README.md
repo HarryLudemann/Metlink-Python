@@ -1,18 +1,17 @@
 # Metlink-Python
-Wrapper for the offical metlink API (Requires free api key from metlink)
+Unofficial wrapper for the official metlink API (Requires free api key from metlink)
 
 ### Install:
 ```
 pip install metlink-python
 ```
 ### Get API KEY
-1. Register here at [Metlink](https://gwrc-opendata.auth.ap-southeast-2.amazoncognito.com/signup?response_type=token&client_id=4bmn2icphpqls57ijr7k4okv55&redirect_uri=https://opendata.metlink.org.nz/index.html?action=login)
+1. Register at [Metlink](https://gwrc-opendata.auth.ap-southeast-2.amazoncognito.com/signup?response_type=token&client_id=4bmn2icphpqls57ijr7k4okv55&redirect_uri=https://opendata.metlink.org.nz/index.html?action=login)
 2. Login
 3. Get API key from [My Dashboard](https://opendata.metlink.org.nz/dashboard)
-4. Optionally check out the [API's](https://opendata.metlink.org.nz/apis)
 
 ### Examples
-#### Basic Use
+#### Setup Use
 ```python
 from metlink import metlink
 
@@ -65,17 +64,9 @@ for pred in stop_predictions:
 ```
 
 ### Functions:
-| Function Name | Description   | 
-| ------------- |:-------------:| 
-| get_trip_updates      | Trip Updates - Delays, cancellations, changed routes. Given nothing, returns list of dictionaries. returns empty list if no trip delays or changes | 
-| get_vehicle_positions      | Vehicle Positions -  API to get Information about vehicles including location. Given nothing, returns list of dictionaries.  if no busses are active returns empty list  |  
-| get_service_alerts | Trip Updates - Information about unforeseen events affecting routes, stops, or the network. Given nothing, returns list of dictionaries.     |  
-| get_stop_predictions | Passed stop_id, returns list of dictionary's |  
-| get_routes | Returns list of dictionarys of route infomation, optionally given stop_id as filter |  
-
-
-#### Returned Dictionary Fields:
-* **get_stop_predictions**
+* **get_stop_predictions(stop_id=None)**      
+    Passed stop_id, returns list of dictionary's   
+    **Param**: stop_id   
     * service_id
     * name
     * vehicle_id
@@ -90,7 +81,9 @@ for pred in stop_predictions:
     * departure
     * arrival
 
-* **get_service_alerts**
+* **get_service_alerts()**
+    Trip Updates - Information about unforeseen events affecting routes, stops, or the network. Given nothing, returns list of dictionaries.   
+    **Param**: N/A   
     * active_period
     * effect
     * cause
@@ -99,20 +92,26 @@ for pred in stop_predictions:
     * severity_level
     * informed_entity
 
-* **get_vehicle_positions**
+* **get_vehicle_positions()**   
+    Vehicle Positions - API to get Information about vehicles including location. Given nothing, returns list of dictionaries. if no busses are active returns empty list   
+    **Param**: N/A   
     * vehicle_id
     * bearing
     * latitude
     * longitude
 
-* **get_trip_updates**
+* **get_trip_updates()**
+    Trip Updates - Delays, cancellations, changed routes. Given nothing, returns list of dictionaries. returns empty list if no trip delays or changes   
+    **Param**: N/A   
     * stop_id
     * arrival_delay
     * arrival_time
     * trip_start_time
     * vehicle_id
 
-* **get_routes**
+* **get_routes(stop_id=None)**
+    Returns list of dictionarys of route infomation, optionally given stop_id as filter   
+    **Param**: Optional stop_id   
     * id
     * route_id
     * agency_id
@@ -123,3 +122,19 @@ for pred in stop_predictions:
     * route_color
     * route_text_color
     * route_url
+
+* **get_stops(trip_id=None, route_id=None)**   
+    Returns list of dictionarys of stops infomation, optionally given trip_id and or route_id   
+    **Param**: Optional stop_id
+    * id
+    * stop_id
+    * stop_code
+    * stop_name
+    * stop_desc
+    * zone_id
+    * stop_lat
+    * stop_lon
+    * location_type
+    * parent_station
+    * stop_url
+    * stop_timezone

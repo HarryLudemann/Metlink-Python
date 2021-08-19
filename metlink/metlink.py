@@ -3,7 +3,7 @@ import json
 import certifi
 
 class metlink():
-    __version__ = '0.0.3'
+    __version__ = '0.0.4'
     base_url = 'https://api.opendata.metlink.org.nz/v1/'
 
     def __init__(self, API_KEY = None):
@@ -34,12 +34,43 @@ class metlink():
 
     # GTFS APIS Static public transport data for Wellington in GTFS (General Transit Feed Specification).
 
+
+    def get_stops(self, trip_id = None, route_id = None):
+        """ Returns list of dictionarys of stops infomation, optionally given route_id and or trip_id as filter """
+        if trip_id and route_id:
+            response = self.get_metlink_data(f'https://api.opendata.metlink.org.nz/v1/gtfs/stops?route_id={route_id}&trip_id={trip_id}') 
+        elif trip_id:
+            response = self.get_metlink_data(f'https://api.opendata.metlink.org.nz/v1/gtfs/stops?trip_id={trip_id}') 
+        elif route_id:
+            response = self.get_metlink_data(f'https://api.opendata.metlink.org.nz/v1/gtfs/stops?route_id={route_id}') 
+        else:
+            response = self.get_metlink_data('https://api.opendata.metlink.org.nz/v1/gtfs/stops') 
+        routes = []
+        for entity in response:
+            route = {
+                'id': entity['id'],
+                'stop_id': entity['stop_id'],
+                'stop_code': entity['stop_code'],
+                'stop_name': entity['stop_name'],
+                'stop_desc': entity['stop_desc'],
+                'zone_id': entity['zone_id'],
+                'stop_lat': entity['stop_lat'],
+                'stop_lon': entity['stop_lon'],
+                'location_type': entity['location_type'],
+                'parent_station': entity['parent_station'],
+                'stop_url': entity['stop_url'],
+                'stop_timezone': entity['stop_timezone'],
+            }
+            routes.append(route)
+        return routes
+
+
     def get_routes(self, stop_id = None):
         """ Returns list of dictionarys of route infomation, optionally given stop_id as filter """
         if stop_id:
             response = self.get_metlink_data('https://api.opendata.metlink.org.nz/v1/gtfs/routes?stop_id=' + str(stop_id)) 
         else:
-            response = self.get_metlink_data('https://api.opendata.metlink.org.nz/v1/gtfs/routes?stop_id=') 
+            response = self.get_metlink_data('https://api.opendata.metlink.org.nz/v1/gtfs/routes') 
         routes = []
         for entity in response:
             route = {
@@ -123,27 +154,28 @@ class metlink():
 
     # stop predicion API
 
-    def get_stop_predictions(self, stop_id):
+    def get_stop_predictions(self, stop_id = None):
         """ Passed stop_id, returns list of dictionary's """
-        if not stop_id: raise ValueError('stop_id must be given') 
-        response = self.get_metlink_data('https://api.opendata.metlink.org.nz/v1/stop-predictions?stop_id=' + str(stop_id))
-        stop_predictions = []
-        for stop in response['departures']:
-            prediction = {
-                'service_id': stop['service_id'],
-                'name': stop['name'],
-                'vehicle_id': stop['vehicle_id'],
-                'direction': stop['direction'],
-                'status': stop['status'],
-                'trip_id': stop['trip_id'],
-                'delay': stop['delay'],
-                'monitored': stop['monitored'],
-                'operator': stop['operator'],
-                'origin': stop['origin'],
-                'wheelchair_accessible': stop['wheelchair_accessible'],
-                'departure': stop['departure'],
-                'arrival': stop['arrival']
-            }
-            stop_predictions.append(prediction)
-
-        return stop_predictions
+        if stop_id:
+            response = self.get_metlink_data('https://api.opendata.metlink.org.nz/v1/stop-predictions?stop_id=' + str(stop_id))
+            stop_predictions = []
+            for stop in response['departures']:
+                prediction = {
+                    'service_id': stop['service_id'],
+                    'name': stop['name'],
+                    'vehicle_id': stop['vehicle_id'],
+                    'direction': stop['direction'],
+                    'status': stop['status'],
+                    'trip_id': stop['trip_id'],
+                    'delay': stop['delay'],
+                    'monitored': stop['monitored'],
+                    'operator': stop['operator'],
+                    'origin': stop['origin'],
+                    'wheelchair_accessible': stop['wheelchair_accessible'],
+                    'departure': stop['departure'],
+                    'arrival': stop['arrival']
+                }
+                stop_predictions.append(prediction)
+            return stop_predictions
+        
+        raise ValueError('stop_id must be given for get_stop_predictions') 
