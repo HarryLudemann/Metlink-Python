@@ -1,0 +1,223 @@
+import urllib3
+import json
+import certifi
+from metlink import constants as const
+
+
+class Metlink():
+    __version__ = '0.0.5'
+
+    def __init__(self, API_KEY=None):
+        self.API_KEY = API_KEY
+        self.http = urllib3.PoolManager(
+            cert_reqs='CERT_REQUIRED',
+            ca_certs=certifi.where()
+        )
+        if self.API_KEY is None:
+            raise ValueError('API_KEY parameter not provided to Metlink class')
+
+    def __get_metlink_data(self, API_Path: str) -> dict:
+        '''
+            Get JSON object of data from given path,
+            if response status is not 200 throws Value Error
+
+            Parameters:
+                    API_Path (string): URL of path to call
+
+            Returns:
+                    (JSON Object): JSON object contains
+                    data in the form of key/value pair.
+        '''
+        r = self.http.request(
+            'GET',
+            API_Path,
+            headers={
+                'accept': 'application/json',
+                'x-api-key': self.API_KEY
+            }
+        )
+        if r.status == 200:
+            return json.loads(r.data.decode('utf-8'))
+        else:
+            raise ValueError('API Error:', json.loads(r.data.decode('utf-8')))
+
+    def get_stops(self, trip: str = None, route: str = None) -> list[dict]:
+        '''
+            Gets stop information for all or a specific trip or route.
+
+            Parameters:
+                    trip (str): Optionally provide trip id
+                    route (str): Optionally provide route id
+
+            Returns:
+                    (list[dict]): Returns list of dictionaries each dictionary
+                    contains information about a stop.
+        '''
+        if trip and route:
+            response = self.__get_metlink_data(
+                f'{const.STOPS_URL}?route_id={route}&trip_id={trip}')
+        elif trip:
+            response = self.__get_metlink_data(
+                f'{const.STOPS_URL}?trip_id={trip}')
+        elif route:
+            response = self.__get_metlink_data(
+                f'{const.STOPS_URL}?route_id={route}')
+        else:
+            response = self.__get_metlink_data(const.STOPS_URL)
+        routes = []
+        for entity in response:
+            curr_route = {
+                'id': entity['id'],
+                'stop_id': entity['stop_id'],
+                'stop_code': entity['stop_code'],
+                'stop_name': entity['stop_name'],
+                'stop_desc': entity['stop_desc'],
+                'zone_id': entity['zone_id'],
+                'stop_lat': entity['stop_lat'],
+                'stop_lon': entity['stop_lon'],
+                'location_type': entity['location_type'],
+                'parent_station': entity['parent_station'],
+                'stop_url': entity['stop_url'],
+                'stop_timezone': entity['stop_timezone'],
+            }
+            routes.append(curr_route)
+        return routes
+
+    def get_routes(self, stop_id: str = None) -> list[dict]:
+        '''
+            Gets route information for all or a specific stop.
+
+            Parameters:
+                    stop_id (str): Optionally provide stop id
+
+            Returns:
+                    (list[dict]): Returns list of dictionaries each dictionary
+                    contains information about a route.
+        '''
+        if stop_id:
+            response = self.__get_metlink_data(
+                const.ROUTES_URL + '?stop_id=' + str(stop_id))
+        else:
+            response = self.__get_metlink_data(const.ROUTES_URL)
+        routes = []
+        for entity in response:
+            route = {
+                'id': entity['id'],
+                'route_id': entity['route_id'],
+                'agency_id': entity['agency_id'],
+                'route_short_name': entity['route_short_name'],
+                'route_long_name': entity['route_long_name'],
+                'route_desc': entity['route_desc'],
+                'route_type': entity['route_type'],
+                'route_color': entity['route_color'],
+                'route_text_color': entity['route_text_color'],
+                'route_url': entity['route_url'],
+            }
+            routes.append(route)
+        return routes
+
+    def get_vehicle_positions(self) -> list[dict]:
+        '''
+            Gets active bus locations.
+
+            Returns:
+                    (list[dict]): Returns list of dictionaries each dictionary
+                    contains information about a bus and its position.
+        '''
+        response = self.__get_metlink_data(const.VEHICLE_POSITIONS_URL)
+        vehicle_positions = []
+        for entity in response['entity']:
+            vehicle_position = {
+                'vehicle_id': entity['vehicle']['vehicle']['id'],
+                'bearing': entity['vehicle']['position']['bearing'],
+                'latitude': entity['vehicle']['position']['latitude'],
+                'longitude': entity['vehicle']['position']['longitude']
+            }
+            vehicle_positions.append(vehicle_position)
+        return vehicle_positions
+
+    def get_trip_updates(self) -> list[dict]:
+        '''
+            Gets Delays, cancellations, changed routes.
+
+            Returns:
+                    (list[dict]): Returns list of dictionaries each dictionary
+                    contains stop id, vehicle id and new trip times.
+        '''
+        response = self.__get_metlink_data(const.TRIP_UPDATES_URL)
+        trip_updates = []
+        for entity in response['entity']:
+            trip = entity['trip_update']
+            trip_update = {
+                'stop_id': trip['stop_time_update']['stop_id'],
+                'arrival_delay': trip['stop_time_update']['arrival']['delay'],
+                'arrival_time': trip['stop_time_update']['arrival']['time'],
+                'trip_start_time': trip['trip']['start_time'],
+                'vehicle_id': trip['vehicle']['id'],
+            }
+            trip_updates.append(trip_update)
+        return trip_updates
+
+    def get_service_alerts(self) -> list[dict]:
+        '''
+            Information about unforeseen
+            events affecting routes, stops, or the network.
+
+            Returns:
+                    (list[dict]): Returns list of dictionaries each dictionary
+                    contains warning information.
+        '''
+        response = self.__get_metlink_data(const.SERVICE_ALERTS_URL)
+        service_alerts = []
+        for entity in response['entity']:
+            des = entity['alert']['description_text']['translation'][0]['text']
+            head = entity['alert']['header_text']['translation'][0]['text']
+            service_alert = {
+                'active_period': entity['alert']['active_period'],
+                'effect': entity['alert']['effect'],
+                'cause': entity['alert']['cause'],
+                'description_text': des,
+                'header_text': head,
+                'severity_level': entity['alert']['severity_level'],
+                'informed_entity': entity['alert']['informed_entity'],
+                # 'id': entity['alert']['id'],
+                # 'timestamp': entity['alert']['timestamp']
+            }
+            service_alerts.append(service_alert)
+        return service_alerts
+
+    def get_stop_predictions(self, stop_id: str = None) -> list[dict]:
+        '''
+            Get all stop predictions for given stop.
+
+            Parameters:
+                    stop_id (str): Stop id
+
+            Returns:
+                    (list[dict]): Returns list of dictionaries each dictionary
+                    contains a stop prediction for the given stop.
+        '''
+        if stop_id:
+            response = self.__get_metlink_data(
+                '?stop_id=' + const.STOP_PREDICTIONS_URL + str(stop_id))
+            stop_predictions = []
+            for stop in response['departures']:
+                prediction = {
+                    'service_id': stop['service_id'],
+                    'name': stop['name'],
+                    'vehicle_id': stop['vehicle_id'],
+                    'direction': stop['direction'],
+                    'status': stop['status'],
+                    'trip_id': stop['trip_id'],
+                    'delay': stop['delay'],
+                    'monitored': stop['monitored'],
+                    'operator': stop['operator'],
+                    'origin': stop['origin'],
+                    'wheelchair_accessible': stop['wheelchair_accessible'],
+                    'departure': stop['departure'],
+                    'arrival': stop['arrival']
+                }
+                stop_predictions.append(prediction)
+            return stop_predictions
+
+        raise ValueError('stop_id must be given for get_stop_predictions')

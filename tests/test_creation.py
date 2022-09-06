@@ -8,9 +8,9 @@ currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentfram
 parentdir = os.path.dirname(currentdir)
 sys.path.insert(0, parentdir) 
 
-from metlink import metlink
+from metlink import Metlink
 
 def test_creation():
     """ Tests the main class object is instantiable """
-    metlink_obj = metlink('abnaisfubas')
+    metlink_obj = Metlink('abnaisfubas')
     assert metlink_obj

@@ -11,27 +11,20 @@ pip install metlink-python
 3. Get API key from [My Dashboard](https://opendata.metlink.org.nz/dashboard)
 
 ### Examples
-#### Setup Use
+#### Initialize
 ```python
-from metlink import metlink
+from metlink import Metlink
 
-METLINK_API_KEY = 'FakeAPIKEYaiofuhaeaubaaoanaiscai'
-metlink = metlink( API_KEY = METLINK_API_KEY )
+metlink = Metlink('FakeAPIKEYaiofuhaeaubaaoanaiscai')
 ```
 #### Vehicle Positions Example:
 ```python
-from metlink import metlink
-metlink = metlink( API_KEY = 'FakeAPIKEYaiofuhaeaubaaoanaiscai' )
-
 vehicle_positions = metlink.get_vehicle_positions()
 for position in vehicle_positions:
     print( position.get('bearing'), position.get('latitude'), position.get('longitude') )
 ```
 #### Trip Updates Example:
 ```python
-from metlink import metlink
-metlink = metlink( API_KEY = 'FakeAPIKEYaiofuhaeaubaaoanaiscai' )
-
 trip_updates = metlink.get_trip_updates()
 
 for update in trip_updates:
@@ -39,9 +32,6 @@ for update in trip_updates:
 ```
 #### Service Alerts Example:
 ```python
-from metlink import metlink
-metlink = metlink( API_KEY = 'FakeAPIKEYaiofuhaeaubaaoanaiscai' )
-
 service_alerts = metlink.get_service_alerts()
 for index, alert in enumerate(service_alerts):
     print('Alert', index )
@@ -53,9 +43,6 @@ for index, alert in enumerate(service_alerts):
 
 #### Stop Predictions Example:
 ```python
-from metlink import metlink
-metlink = metlink( API_KEY = 'FakeAPIKEYaiofuhaeaubaaoanaiscai' )
-
 stop_predictions = metlink.get_stop_predictions(stop_id=7912)
 
 for pred in stop_predictions:
@@ -125,7 +112,7 @@ for pred in stop_predictions:
 
 * **get_stops(trip_id=None, route_id=None)**   
     Returns list of dictionarys of stops infomation, optionally given trip_id and or route_id   
-    **Param**: Optional stop_id
+    **Param**: Optional trip_id and or route_id
     * id
     * stop_id
     * stop_code

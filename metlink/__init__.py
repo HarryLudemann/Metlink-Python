@@ -1,3 +1,3 @@
-from metlink.metlink import metlink
+from metlink.main import Metlink
 
-
+__all__ = ['Metlink']
