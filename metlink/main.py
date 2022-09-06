@@ -16,7 +16,7 @@ class Metlink():
         if self.API_KEY is None:
             raise ValueError('API_KEY parameter not provided to Metlink class')
 
-    def __get_metlink_data(self, API_Path: str) -> dict:
+    def __get_metlink_data(self, API_Path: str):
         '''
             Get JSON object of data from given path,
             if response status is not 200 throws Value Error
@@ -41,7 +41,7 @@ class Metlink():
         else:
             raise ValueError('API Error:', json.loads(r.data.decode('utf-8')))
 
-    def get_stops(self, trip: str = None, route: str = None) -> list[dict]:
+    def get_stops(self, trip: str = None, route: str = None):
         '''
             Gets stop information for all or a specific trip or route.
 
@@ -50,8 +50,8 @@ class Metlink():
                     route (str): Optionally provide route id
 
             Returns:
-                    (list[dict]): Returns list of dictionaries each dictionary
-                    contains information about a stop.
+                    (list[dict[str, str]]): Returns list of dictionaries each
+                    dictionary contains information about a stop.
         '''
         if trip and route:
             response = self.__get_metlink_data(
@@ -83,7 +83,7 @@ class Metlink():
             routes.append(curr_route)
         return routes
 
-    def get_routes(self, stop_id: str = None) -> list[dict]:
+    def get_routes(self, stop_id: str = None):
         '''
             Gets route information for all or a specific stop.
 
@@ -91,7 +91,8 @@ class Metlink():
                     stop_id (str): Optionally provide stop id
 
             Returns:
-                    (list[dict]): Returns list of dictionaries each dictionary
+                    (list[dict[str, str]]): Returns list of
+                    dictionaries each dictionary
                     contains information about a route.
         '''
         if stop_id:
@@ -116,13 +117,14 @@ class Metlink():
             routes.append(route)
         return routes
 
-    def get_vehicle_positions(self) -> list[dict]:
+    def get_vehicle_positions(self):
         '''
             Gets active bus locations.
 
             Returns:
-                    (list[dict]): Returns list of dictionaries each dictionary
-                    contains information about a bus and its position.
+                    (list[dict[str, str]]): Returns list of dictionaries
+                    each dictionary contains information about a bus
+                    and its position.
         '''
         response = self.__get_metlink_data(const.VEHICLE_POSITIONS_URL)
         vehicle_positions = []
@@ -136,13 +138,14 @@ class Metlink():
             vehicle_positions.append(vehicle_position)
         return vehicle_positions
 
-    def get_trip_updates(self) -> list[dict]:
+    def get_trip_updates(self):
         '''
             Gets Delays, cancellations, changed routes.
 
             Returns:
-                    (list[dict]): Returns list of dictionaries each dictionary
-                    contains stop id, vehicle id and new trip times.
+                    (list[dict[str, str]]): Returns list of dictionaries
+                    each dictionary contains stop id, vehicle id and
+                    new trip times.
         '''
         response = self.__get_metlink_data(const.TRIP_UPDATES_URL)
         trip_updates = []
@@ -158,14 +161,14 @@ class Metlink():
             trip_updates.append(trip_update)
         return trip_updates
 
-    def get_service_alerts(self) -> list[dict]:
+    def get_service_alerts(self):
         '''
             Information about unforeseen
             events affecting routes, stops, or the network.
 
             Returns:
-                    (list[dict]): Returns list of dictionaries each dictionary
-                    contains warning information.
+                    (list[dict[str, str]]): Returns list of dictionaries
+                    each dictionary contains warning information.
         '''
         response = self.__get_metlink_data(const.SERVICE_ALERTS_URL)
         service_alerts = []
@@ -186,7 +189,7 @@ class Metlink():
             service_alerts.append(service_alert)
         return service_alerts
 
-    def get_stop_predictions(self, stop_id: str = None) -> list[dict]:
+    def get_stop_predictions(self, stop_id: str = None):
         '''
             Get all stop predictions for given stop.
 
@@ -194,8 +197,9 @@ class Metlink():
                     stop_id (str): Stop id
 
             Returns:
-                    (list[dict]): Returns list of dictionaries each dictionary
-                    contains a stop prediction for the given stop.
+                    (list[dict[str, str]]): Returns list of dictionaries
+                    each dictionary contains a stop prediction for the
+                    given stop.
         '''
         if stop_id:
             response = self.__get_metlink_data(

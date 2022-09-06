@@ -9,7 +9,8 @@ with codecs.open(os.path.join(here, "README.md"), encoding="utf-8") as fh:
 
 VERSION = '0.0.5'
 DESCRIPTION = 'API Wrapper for Metlink API'
-LONG_DESCRIPTION = 'A python package to easily access infomation from the official metlink api'
+LONG_DESCRIPTION = '''A python package to easily access
+infomation from the official metlink api'''
 
 # Setting up
 setup(
@@ -21,7 +22,13 @@ setup(
     long_description_content_type="text/markdown",
     packages=find_packages(),
     install_requires=['urllib3'],
-    keywords=['python', 'harryludemann', 'metlink', 'wellington', 'metlink-python'],
+    keywords=[
+        'python',
+        'harryludemann',
+        'metlink',
+        'wellington',
+        'metlink-python'
+        ],
     classifiers=[
         "Development Status :: 1 - Planning",
         "Intended Audience :: Developers",
