@@ -1,5 +1,8 @@
 # Metlink-Python
-Unofficial wrapper for the official metlink API (Requires free api key from metlink)
+[![](https://github.com/HarryLudemann/Metlink-Python/workflows/pytests/badge.svg)]()
+[![Maintainability](https://api.codeclimate.com/v1/badges/08e4dc1f109aaa6c4f75/maintainability)](https://codeclimate.com/github/HarryLudemann/Metlink-Python/maintainability)
+   
+Unofficial wrapper for the metlink API, this requires a free api key from metlink.
 
 ### Install:
 ```

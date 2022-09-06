@@ -53,19 +53,15 @@ class Metlink():
                     (list[dict[str, str]]): Returns list of dictionaries each
                     dictionary contains information about a stop.
         '''
+        url = const.STOPS_URL
         if trip and route:
-            response = self.__get_metlink_data(
-                f'{const.STOPS_URL}?route_id={route}&trip_id={trip}')
+            url += '?trip_id=' + trip + '&route_id=' + route
         elif trip:
-            response = self.__get_metlink_data(
-                f'{const.STOPS_URL}?trip_id={trip}')
+            url += '?trip_id=' + trip
         elif route:
-            response = self.__get_metlink_data(
-                f'{const.STOPS_URL}?route_id={route}')
-        else:
-            response = self.__get_metlink_data(const.STOPS_URL)
+            url += '?route_id=' + route
         routes = []
-        for entity in response:
+        for entity in self.__get_metlink_data(url):
             curr_route = {
                 'id': entity['id'],
                 'stop_id': entity['stop_id'],
@@ -95,13 +91,11 @@ class Metlink():
                     dictionaries each dictionary
                     contains information about a route.
         '''
+        url = const.ROUTES_URL
         if stop_id:
-            response = self.__get_metlink_data(
-                const.ROUTES_URL + '?stop_id=' + str(stop_id))
-        else:
-            response = self.__get_metlink_data(const.ROUTES_URL)
+            url += '?stop_id=' + str(stop_id)
         routes = []
-        for entity in response:
+        for entity in self.__get_metlink_data(url):
             route = {
                 'id': entity['id'],
                 'route_id': entity['route_id'],
