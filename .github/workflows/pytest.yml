@@ -27,7 +27,6 @@ jobs:
 
     - name: Test with pytest
       run: |
-        echo $METLINK_API_KEY
         pytest
       env:
         METLINK_API_KEY: ${{ secrets.METLINK_API_KEY }}
