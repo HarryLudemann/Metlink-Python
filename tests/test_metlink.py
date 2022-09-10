@@ -2,12 +2,12 @@ from metlink import Metlink
 import os
 
 # check if METLINK_API_KEY env variable is set
-if 'METLINK_API_KEY' in os.environ:
-    API_KEY = os.environ['METLINK_API_KEY']
-else:
-    from dotenv import load_dotenv
-    load_dotenv()
-    API_KEY = os.environ['METLINK_API_KEY']
+# if 'METLINK_API_KEY' in os.environ['METLINK_API_KEY']:
+API_KEY = os.environ['METLINK_API_KEY']
+# else:
+#     from dotenv import load_dotenv
+#     load_dotenv()
+#     API_KEY = os.environ['METLINK_API_KEY']
 
 
 def test_creation():
