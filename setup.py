@@ -21,7 +21,7 @@ setup(
     description=DESCRIPTION,
     long_description_content_type="text/markdown",
     packages=find_packages(),
-    install_requires=['urllib3'],
+    install_requires=['urllib3', 'certifi'],
     keywords=[
         'python',
         'harryludemann',

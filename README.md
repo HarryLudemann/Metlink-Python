@@ -63,6 +63,15 @@ Arguments:
         --stop_predictions        Prints stop predictions,
                                     filters: --stop
 ```
+#### Optionally Install Rich Module
+Optionally you can install the rich module to visually make the returned tables more attractive.
+```python
+pip install rich
+```
+or
+```python
+pip3 install rich
+```
 #### Example:
 For example run this command to get a table of service alerts
 ```
