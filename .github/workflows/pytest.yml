@@ -6,7 +6,7 @@ jobs:
     name: Run Python Tests
     runs-on: ubuntu-latest
     env:
-      METLINK_API_KEY: '${{ secrets.METLINK_API_KEY }}'
+      METLINK_API_KEY: ${{ secrets.METLINK_API_KEY }}
 
     steps:
     - uses: actions/checkout@v2
@@ -29,6 +29,6 @@ jobs:
 
     - name: Test with pytest
       env:
-        METLINK_API_KEY: '${{ secrets.METLINK_API_KEY }}'
+        METLINK_API_KEY: ${{ secrets.METLINK_API_KEY }}
       run: |
         pytest
