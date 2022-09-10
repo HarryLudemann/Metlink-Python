@@ -1,3 +1,5 @@
 pytest
 urllib3
 certifi
+metlink-python
+rich

@@ -2,19 +2,79 @@
 [![](https://github.com/HarryLudemann/Metlink-Python/workflows/pytests/badge.svg)]()
 [![Maintainability](https://api.codeclimate.com/v1/badges/08e4dc1f109aaa6c4f75/maintainability)](https://codeclimate.com/github/HarryLudemann/Metlink-Python/maintainability)
    
-Unofficial wrapper for the metlink API, this requires a free api key from metlink.
+Python wrapper and CLI for the [Wellington Metlink](https://gwrc-opendata.auth.ap-southeast-2.amazoncognito.com/signup?response_type=token&client_id=4bmn2icphpqls57ijr7k4okv55&redirect_uri=https://opendata.metlink.org.nz/index.html?action=login) API, this requires a free api key from [Metlink](https://gwrc-opendata.auth.ap-southeast-2.amazoncognito.com/signup?response_type=token&client_id=4bmn2icphpqls57ijr7k4okv55&redirect_uri=https://opendata.metlink.org.nz/index.html?action=login).
 
-### Install:
+### Install Module:
 ```
 pip install metlink-python
+```
+or
+```
+pip3 install metlink-python
 ```
 ### Get API KEY
 1. Register at [Metlink](https://gwrc-opendata.auth.ap-southeast-2.amazoncognito.com/signup?response_type=token&client_id=4bmn2icphpqls57ijr7k4okv55&redirect_uri=https://opendata.metlink.org.nz/index.html?action=login)
 2. Login
 3. Get API key from [My Dashboard](https://opendata.metlink.org.nz/dashboard)
 
-### Examples
-#### Initialize
+### CLI
+#### Setup:
+Create python file containing the following code with your API key, for example called 'main.py' containing:
+```python
+from metlink import CLI
+
+CLI('dnflGWoxT67ZNngU5s41D9c26W3UUp4B8Uw65XsK')
+```
+#### Test:
+Then run the created script with the argument '-h' to display all arguments.
+```
+python main.py -h
+```
+or 
+```
+python3 main.py -h
+```
+Returning:
+```
+Arguments:
+    -h, --help                show this help message
+    -v, --version             show program's version number
+
+    Style Table:
+        --lines               Show lines between rows
+        --rich                Use rich module to style table
+
+    Filters:
+        --stop STOP      Select Stop
+        --route ROUTE   Select Route
+        --trip TRIP      Select Trip
+
+    Information to display:
+        --stops                   Prints stop information,
+                                    filters: --trip, --route
+        --routes                  Prints route information,
+                                    filters: --stop
+        --vehicle_positions       Prints vehicle positions,
+                                    filters: N/A
+        --trip_updates            Prints trip updates,
+                                    filters: N/A
+        --service_alerts          Prints service alerts,
+                                    filters: N/A
+        --stop_predictions        Prints stop predictions,
+                                    filters: --stop
+```
+#### Example:
+For example run this command to get a table of service alerts
+```
+python main.py --service_alerts --rich
+```
+or 
+```
+python3 main.py --service_alerts --rich
+```
+### Python Module
+#### Initialize Module:
+To use any of the functions you need to initialize the class at the start of the script.
 ```python
 from metlink import Metlink
 
@@ -53,7 +113,7 @@ for pred in stop_predictions:
         print(pred.get('service_id'), pred.get('status'))
 ```
 
-### Functions:
+#### Module Functions:
 * **get_stop_predictions(stop_id=None)**      
     Passed stop_id, returns list of dictionary's   
     **Param**: stop_id   
@@ -128,3 +188,5 @@ for pred in stop_predictions:
     * parent_station
     * stop_url
     * stop_timezone
+
+

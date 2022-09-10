@@ -5,7 +5,21 @@ from metlink import constants as const
 
 
 class Metlink():
-    __version__ = '0.0.5'
+    '''
+        Class contains methods to access the Metlink API.
+
+        Methods:
+                get_stops(trip: str = None, route: str = None)
+                get_routes(stop_id: str = None)
+                get_vehicle_positions()
+                get_trip_updates()
+                get_service_alerts()
+                get_stop_predictions(stop_id: str)
+
+        Parameters:
+                API_KEY (str): API key to access Metlink API
+    '''
+    __version__ = '0.0.6'
 
     def __init__(self, API_KEY=None):
         self.API_KEY = API_KEY
@@ -28,18 +42,29 @@ class Metlink():
                     (JSON Object): JSON object contains
                     data in the form of key/value pair.
         '''
-        r = self.http.request(
-            'GET',
-            API_Path,
-            headers={
-                'accept': 'application/json',
-                'x-api-key': self.API_KEY
-            }
-        )
-        if r.status == 200:
-            return json.loads(r.data.decode('utf-8'))
-        else:
-            raise ValueError('API Error:', json.loads(r.data.decode('utf-8')))
+        try:
+            r = self.http.request(
+                'GET',
+                API_Path,
+                headers={
+                    'accept': 'application/json',
+                    'x-api-key': self.API_KEY
+                }
+            )
+            if r.status != 200:
+                raise ValueError('Response status not 200')
+        except urllib3.exceptions.MaxRetryError:
+            raise ValueError('Maximum retries exceeded, check internet.')
+        except urllib3.exceptions.NewConnectionError:
+            raise ValueError('Connection failed, check internet.')
+        except urllib3.exceptions.SSLError:
+            raise ValueError('SSL Error, check internet.')
+        except urllib3.exceptions.HTTPError:
+            raise ValueError('HTTP Error, check internet.')
+        except urllib3.exceptions.ConnectionError:
+            raise ValueError('Connection Error, check internet.')
+
+        return json.loads(r.data.decode('utf-8'))
 
     def get_stops(self, trip: str = None, route: str = None):
         '''

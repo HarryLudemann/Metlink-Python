@@ -7,10 +7,10 @@ here = os.path.abspath(os.path.dirname(__file__))
 with codecs.open(os.path.join(here, "README.md"), encoding="utf-8") as fh:
     long_description = "\n" + fh.read()
 
-VERSION = '0.0.5'
-DESCRIPTION = 'API Wrapper for Metlink API'
+VERSION = '0.0.6'
+DESCRIPTION = 'API Wrapper and CLI for Metlink API'
 LONG_DESCRIPTION = '''A python package to easily access
-infomation from the official metlink api'''
+infomation from the official metlink api, either through python or CLI.'''
 
 # Setting up
 setup(
