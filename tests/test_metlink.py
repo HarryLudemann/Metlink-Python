@@ -4,14 +4,10 @@ import os
 
 def get_api_key():
     """ Gets the API key from the .env file """
-    if os.getenv('GITHUB') or os.getenv('METLINK_API_KEY'):
-        print("Using github secret API key")
-        return os.getenv('METLINK_API_KEY')
-    else:
-        print('Using local API key')
-        from dotenv import load_dotenv
-        load_dotenv()
-        return os.environ['METLINK_API_KEY']
+    return os.environ['METLINK_API_KEY']
+    # from dotenv import load_dotenv
+    # load_dotenv()
+    # return os.environ['METLINK_API_KEY']
 
 
 def test_creation():
