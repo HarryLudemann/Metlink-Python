@@ -4,7 +4,7 @@ import os
 
 def get_api_key():
     """ Gets the API key from the .env file """
-    if os.getenv('GITHUB'):
+    if os.getenv('GITHUB') or os.getenv('METLINK_API_KEY'):
         print("Using github secret API key")
         return os.getenv('METLINK_API_KEY')
     else:
