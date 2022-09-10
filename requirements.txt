@@ -2,5 +2,4 @@ urllib3
 certifi
 metlink-python
 rich
-python-dotenv
 pytest
