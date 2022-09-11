@@ -1,5 +1,17 @@
 
 def print_rich_table(title, varibles, data, lines=False):
+    """
+    Prints a table with the given title, varibles and data.
+    Using the rich library.
+
+    Args:
+        title (str): The title of the table.
+        varibles (list): A list of the varibles to be printed.
+        data (list): A list of dictionaries containing the data.
+        lines (bool, optional): Whether to print lines between 
+        rows. Defaults to False.
+
+    """
     from rich.table import Table
     from rich.console import Console
     console = Console()

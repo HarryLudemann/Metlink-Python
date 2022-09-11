@@ -2,7 +2,7 @@
 [![](https://github.com/HarryLudemann/Metlink-Python/workflows/pytests/badge.svg)]()
 [![Maintainability](https://api.codeclimate.com/v1/badges/08e4dc1f109aaa6c4f75/maintainability)](https://codeclimate.com/github/HarryLudemann/Metlink-Python/maintainability)
    
-Python wrapper and CLI for the [Wellington Metlink](https://gwrc-opendata.auth.ap-southeast-2.amazoncognito.com/signup?response_type=token&client_id=4bmn2icphpqls57ijr7k4okv55&redirect_uri=https://opendata.metlink.org.nz/index.html?action=login) API, this requires a free api key from [Metlink](https://gwrc-opendata.auth.ap-southeast-2.amazoncognito.com/signup?response_type=token&client_id=4bmn2icphpqls57ijr7k4okv55&redirect_uri=https://opendata.metlink.org.nz/index.html?action=login).
+Python wrapper and CLI for the [Wellington Metlink's](https://gwrc-opendata.auth.ap-southeast-2.amazoncognito.com/signup?response_type=token&client_id=4bmn2icphpqls57ijr7k4okv55&redirect_uri=https://opendata.metlink.org.nz/index.html?action=login) API and static data, this requires a free api key from [Metlink](https://gwrc-opendata.auth.ap-southeast-2.amazoncognito.com/signup?response_type=token&client_id=4bmn2icphpqls57ijr7k4okv55&redirect_uri=https://opendata.metlink.org.nz/index.html?action=login).
 
 ### Install Module:
 ```
@@ -44,12 +44,12 @@ Arguments:
         --lines               Show lines between rows
         --rich                Use rich module to style table
 
-    Filters:
+    API Filters:
         --stop STOP      Select Stop
         --route ROUTE   Select Route
         --trip TRIP      Select Trip
 
-    Information to display:
+    API Information to display:
         --stops                   Prints stop information,
                                     filters: --trip, --route
         --routes                  Prints route information,
@@ -62,6 +62,14 @@ Arguments:
                                     filters: N/A
         --stop_predictions        Prints stop predictions,
                                     filters: --stop
+
+    Static Data Filters:
+        --filter_name FILTER_NAME       Select Filter Name
+        --filter_value FILTER_VALUE     Select Value Name
+    
+    Static Data Information to display:
+        --data-types                Show possible static data and their variables
+        --data NAME                 Prints static data, given name
 ```
 #### Optionally Install Rich Module
 Optionally you can install the rich module to visually make the returned tables more attractive.
@@ -72,14 +80,23 @@ or
 ```python
 pip3 install rich
 ```
-#### Example:
-For example run this command to get a table of service alerts
+#### API Example:
+For example run this command to get a table of service alerts, note this example requires the rich module (remove --rich to use without).
 ```
 python main.py --service_alerts --rich
 ```
 or 
 ```
 python3 main.py --service_alerts --rich
+```
+#### Static Example
+Note this example requires the rich module (remove --rich to use without).
+```python
+python main.py --data routes --filter_name route_id --filter_value 10 --rich
+```
+or 
+```python
+python main.py --data routes --filter_name route_id --filter_value 10 --rich
 ```
 ### Python Module
 #### Initialize Module:

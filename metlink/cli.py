@@ -1,7 +1,8 @@
 from metlink import Metlink
 import argparse
-from metlink.util.standard_table import print_standard_table
-from metlink.util.rich_table import print_rich_table
+from metlink.util.interface.standard_table import print_standard_table
+from metlink.util.interface.rich_table import print_rich_table
+from metlink.util.data_controller import DataController
 
 
 def help() -> str:
@@ -14,12 +15,12 @@ Arguments:
         --lines               Show lines between rows
         --rich                Use rich module to style table
 
-    Filters:
+    API Filters:
         --stop STOP      Select Stop
         --route ROUTE   Select Route
         --trip TRIP      Select Trip
 
-    Information to display:
+    API Information to display:
         --stops                   Prints stop information,
                                     filters: --trip, --route
         --routes                  Prints route information,
@@ -32,6 +33,15 @@ Arguments:
                                     filters: N/A
         --stop_predictions        Prints stop predictions,
                                     filters: --stop
+
+    Static Data Filters:
+        --filter_name FILTER_NAME       Select Filter Name
+        --filter_value FILTER_VALUE     Select Value Name
+    
+    Static Data Information to display:
+        --data-types                Show possible static data and their variables
+        --data NAME                 Prints static data, given name
+
 """
 
 
@@ -45,6 +55,7 @@ class CLI:
     '''
     lines = False
     rich_style = False
+    data_controller = DataController()
 
     def __init__(self, api_key: str):
         metlink = Metlink(api_key)
@@ -70,12 +81,15 @@ class CLI:
         parser.add_argument(
             '--rich',
             action='store_true',
-            help='Show lines between rows',
+            help='Use Rich module to style table',
         )
         # filter inputs
         parser.add_argument("--stop", type=str, help="Select Stop")
         parser.add_argument("--route", type=str, help="Select Route")
         parser.add_argument("--trip", type=str, help="Select Trip")
+        parser.add_argument("--filter_name", type=str, help="Select Filter Name")
+        parser.add_argument("--filter_value", type=str, help="Select Value Name")
+        parser.add_argument("--data", type=str, help="Print possible static data")
         # information to display
         parser.add_argument(
             '--stops',
@@ -111,6 +125,11 @@ class CLI:
             '-h', '--help',
             action='store_true',
             help='Show this help message and exit'
+        )
+        parser.add_argument(
+            '--data_types',
+            action='store_true',
+            help='Show possible static data, eg. routes, stops'
         )
         return parser
 
@@ -156,6 +175,18 @@ class CLI:
                 ['Service ID', 'Status', 'Trip ID'],
                 metlink.get_stop_predictions(stop_id=args.stop)
             )
+
+        if args.data_types:
+            self.data_controller.print_possible_data()
+
+        if args.data:
+            if args.filter_name and args.filter_value:
+                self.data_controller.print_data(
+                    name = args.data, 
+                    filters = {args.filter_name: args.filter_value},
+                    rich = args.rich)
+            else:
+                self.data_controller.print_data(args.data)
 
         if args.help:
             print(help())
