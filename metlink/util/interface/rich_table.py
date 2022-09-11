@@ -8,7 +8,7 @@ def print_rich_table(title, varibles, data, lines=False):
         title (str): The title of the table.
         varibles (list): A list of the varibles to be printed.
         data (list): A list of dictionaries containing the data.
-        lines (bool, optional): Whether to print lines between 
+        lines (bool, optional): Whether to print lines between
         rows. Defaults to False.
 
     """
