@@ -189,7 +189,7 @@ class CLI:
                     filters={args.filter_name: args.filter_value},
                     rich=args.rich)
             else:
-                self.data_controller.print_data(args.data)
+                self.data_controller.print_data(args.data, False)
 
         if args.help:
             print(help())
