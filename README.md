@@ -23,7 +23,7 @@ Create python file containing the following code with your API key, for example 
 ```python
 from metlink import CLI
 
-CLI('dnflGWoxT67ZNngU5s41D9c26W3UUp4B8Uw65XsK')
+CLI('FakeAPIKEYaiofuhaeaubaaoanaiscai')
 ```
 #### Test:
 Then run the created script with the argument '-h' to display all arguments.
