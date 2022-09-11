@@ -37,9 +37,9 @@ Arguments:
     Static Data Filters:
         --filter_name FILTER_NAME       Select Filter Name
         --filter_value FILTER_VALUE     Select Value Name
-    
+
     Static Data Information to display:
-        --data-types                Show possible static data and their variables
+        --data-types                Show static names and vars
         --data NAME                 Prints static data, given name
 
 """
@@ -87,9 +87,12 @@ class CLI:
         parser.add_argument("--stop", type=str, help="Select Stop")
         parser.add_argument("--route", type=str, help="Select Route")
         parser.add_argument("--trip", type=str, help="Select Trip")
-        parser.add_argument("--filter_name", type=str, help="Select Filter Name")
-        parser.add_argument("--filter_value", type=str, help="Select Value Name")
-        parser.add_argument("--data", type=str, help="Print possible static data")
+        parser.add_argument(
+            "--filter_name", type=str, help="Select Filter Name")
+        parser.add_argument(
+            "--filter_value", type=str, help="Select Value Name")
+        parser.add_argument(
+            "--data", type=str, help="Print possible static data")
         # information to display
         parser.add_argument(
             '--stops',
@@ -182,9 +185,9 @@ class CLI:
         if args.data:
             if args.filter_name and args.filter_value:
                 self.data_controller.print_data(
-                    name = args.data, 
-                    filters = {args.filter_name: args.filter_value},
-                    rich = args.rich)
+                    name=args.data,
+                    filters={args.filter_name: args.filter_value},
+                    rich=args.rich)
             else:
                 self.data_controller.print_data(args.data)
 

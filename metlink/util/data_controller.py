@@ -1,4 +1,6 @@
 import csv
+from metlink.util.interface.standard_table import print_standard_table
+from metlink.util.interface.rich_table import print_rich_table
 
 
 class DataController:
@@ -23,7 +25,7 @@ class DataController:
             print('File not found: ' + path)
             return False
 
-    def print_data(self, name: str, rich, filters = None):
+    def print_data(self, name: str, rich, filters=None):
         """
         Prints the data in a nice table
 
@@ -40,19 +42,17 @@ class DataController:
                 data = self.data[name].data
             if len(data) > 0:
                 if rich:
-                    from metlink.util.interface.rich_table import print_rich_table
                     print_rich_table(
                         self.data[name].name,
                         self.data[name].variables,
                         data,
-                        lines=False )
+                        lines=False)
                 else:
-                    from metlink.util.interface.standard_table import print_standard_table
                     print_standard_table(
                         self.data[name].name,
                         self.data[name].variables,
                         data,
-                        lines=False )
+                        lines=False)
         else:
             if self.load_data('data/' + name + '.csv'):
                 self.print_data(name, filters)

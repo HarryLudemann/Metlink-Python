@@ -23,6 +23,7 @@ def test_csv():
             assert False
     assert True
 
+
 def test_routes_load():
     """Test that routes load"""
     from metlink.util.data_controller import DataController
