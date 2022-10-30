@@ -53,3 +53,10 @@ def test_service_alerts():
     metlink_obj = Metlink(get_api_key())
     service_alerts = metlink_obj.get_service_alerts()
     assert service_alerts is not None
+
+
+def test_stop_predictions():
+    """ Tests the get_stop_predictions method """
+    metlink_obj = Metlink(get_api_key())
+    stop_predictions = metlink_obj.get_stop_predictions(stop_id=5000)
+    assert stop_predictions is not None

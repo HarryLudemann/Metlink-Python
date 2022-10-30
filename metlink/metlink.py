@@ -222,7 +222,7 @@ class Metlink():
         '''
         if stop_id:
             response = self.__get_metlink_data(
-                '?stop_id=' + const.STOP_PREDICTIONS_URL + str(stop_id))
+                 const.STOP_PREDICTIONS_URL + '?stop_id=' + str(stop_id))
             stop_predictions = []
             for stop in response['departures']:
                 prediction = {
