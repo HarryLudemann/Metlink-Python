@@ -7,6 +7,7 @@ TRIP_UPDATES_URL = BASE_URL + 'gtfs-rt/tripupdates'
 SERVICE_ALERTS_URL = BASE_URL + 'gtfs-rt/servicealerts'
 STOP_PREDICTIONS_URL = BASE_URL + 'stop-predictions'
 
+# all the CLI arguments, except help and version information for argparse
 CLI_ARGUMENTS = [
     # Style Table
     {
@@ -58,6 +59,37 @@ CLI_ARGUMENTS = [
         'help': 'Prints stop predictions, optional filter: --stop',
     },
 ]
+
+# arguments to print for each 'API Information to display' above
+# eg for first item stops, prints Stop Name or stop_name etc
+CLI_PRINT_ARGUMENTS = [
+    {
+        'name': 'stops',
+        'columns': ['Stop Name', 'Stop Description', 'Stop ID']
+    },
+    {
+        'name': 'routes',
+        'columns': ['Route Short Name', 'Route Long Name']
+    },
+    {
+        'name': 'vehicle_positions',
+        'columns': ['Bearing', 'Latitude', 'Longitude']
+    },
+    {
+        'name': 'trip_updates',
+        'columns': ['Stop ID', 'Arrival Delay', 'Arrival Time']
+    },
+    {
+        'name': 'service_alerts',
+        'columns': ['Header Text', 'Effect', 'Cause',
+                    'Severity Level']
+    },
+    {
+        'name': 'stop_predictions',
+        'columns': ['Service ID', 'Status', 'Trip ID']
+    }
+]
+
 
 CLI_HELP = """
 Arguments:

@@ -23,7 +23,7 @@ Create python file containing the following code with your API key, for example 
 ```python
 from metlink import CLI
 
-CLI('FakeAPIKEYaiofuhaeaubaaoanaiscai')
+CLI('api_key')
 ```
 #### Test:
 Then run the created script with the argument '-h' to display all arguments.
@@ -63,6 +63,16 @@ Arguments:
         --stop_predictions        Prints stop predictions,
                                     filters: --stop
 ```
+
+#### Examples:
+For example run this command to get a table of service alerts, note this example requires the rich module (remove --rich to use without).
+```
+python main.py [options]
+python metlink.py --help
+python metlink.py --trip_updates
+python metlink.py --trip_updates --rich
+python metlink.py --stop 5000 --routes --rich
+```
 #### Optionally Install Rich Module
 Optionally you can install the rich module to visually make the returned tables more attractive.
 ```python
@@ -71,15 +81,6 @@ pip install rich
 or
 ```python
 pip3 install rich
-```
-#### API Example:
-For example run this command to get a table of service alerts, note this example requires the rich module (remove --rich to use without).
-```
-python main.py --service_alerts --rich
-```
-or 
-```
-python3 main.py --service_alerts --rich
 ```
 
 ### Python Module

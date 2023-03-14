@@ -66,7 +66,7 @@ class Metlink():
 
         return json.loads(r.data.decode('utf-8'))
 
-    def get_stops(self, trip: str = None, route: str = None):
+    def get_stops(self, trip_id: str = None, route_id: str = None, **kwargs):
         '''
             Gets stop information for all or a specific trip or route.
 
@@ -79,12 +79,12 @@ class Metlink():
                     dictionary contains information about a stop.
         '''
         url = const.STOPS_URL
-        if trip and route:
-            url += '?trip_id=' + trip + '&route_id=' + route
-        elif trip:
-            url += '?trip_id=' + trip
-        elif route:
-            url += '?route_id=' + route
+        if trip_id and route_id:
+            url += '?trip_id=' + trip_id + '&route_id=' + route_id
+        elif trip_id:
+            url += '?trip_id=' + trip_id
+        elif route_id:
+            url += '?route_id=' + route_id
         routes = []
         for entity in self.__get_metlink_data(url):
             curr_route = {}
@@ -93,7 +93,7 @@ class Metlink():
             routes.append(curr_route)
         return routes
 
-    def get_routes(self, stop_id: str = None):
+    def get_routes(self, stop_id: str = None, **kwargs):
         '''
             Gets route information for all or a specific stop.
 
@@ -116,7 +116,7 @@ class Metlink():
             routes.append(route)
         return routes
 
-    def get_vehicle_positions(self):
+    def get_vehicle_positions(self, **kwargs):
         '''
             Gets active bus locations.
 
@@ -137,7 +137,7 @@ class Metlink():
             vehicle_positions.append(vehicle_position)
         return vehicle_positions
 
-    def get_trip_updates(self):
+    def get_trip_updates(self, **kwargs):
         '''
             Gets Delays, cancellations, changed routes.
 
@@ -160,7 +160,7 @@ class Metlink():
             trip_updates.append(trip_update)
         return trip_updates
 
-    def get_service_alerts(self):
+    def get_service_alerts(self, **kwargs):
         '''
             Information about unforeseen
             events affecting routes, stops, or the network.
@@ -186,7 +186,7 @@ class Metlink():
             service_alerts.append(service_alert)
         return service_alerts
 
-    def get_stop_predictions(self, stop_id: str = None):
+    def get_stop_predictions(self, stop_id: str = None, **kwargs):
         '''
             Get all stop predictions for given stop.
 
@@ -206,7 +206,7 @@ class Metlink():
                 prediction = {}
                 for key in stop:
                     prediction[key] = stop[key]
-                
+
                 stop_predictions.append(prediction)
             return stop_predictions
 
