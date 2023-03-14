@@ -41,7 +41,6 @@ Arguments:
     -v, --version             show program's version number
 
     Style Table:
-        --lines               Show lines between rows
         --rich                Use rich module to style table
 
     API Filters:
