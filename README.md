@@ -23,7 +23,7 @@ Create python file containing the following code with your API key, for example 
 ```python
 from metlink import CLI
 
-CLI('FakeAPIKEYaiofuhaeaubaaoanaiscai')
+CLI('api_key')
 ```
 #### Test:
 Then run the created script with the argument '-h' to display all arguments.
@@ -62,14 +62,16 @@ Arguments:
                                     filters: N/A
         --stop_predictions        Prints stop predictions,
                                     filters: --stop
+```
 
-    Static Data Filters:
-        --filter_name FILTER_NAME       Select Filter Name
-        --filter_value FILTER_VALUE     Select Value Name
-    
-    Static Data Information to display:
-        --data-types                Show possible static data and their variables
-        --data NAME                 Prints static data, given name
+#### Examples:
+For example run this command to get a table of service alerts, note this example requires the rich module (remove --rich to use without).
+```
+python main.py [options]
+python metlink.py --help
+python metlink.py --trip_updates
+python metlink.py --trip_updates --rich
+python metlink.py --stop 5000 --routes --rich
 ```
 #### Optionally Install Rich Module
 Optionally you can install the rich module to visually make the returned tables more attractive.
@@ -80,24 +82,7 @@ or
 ```python
 pip3 install rich
 ```
-#### API Example:
-For example run this command to get a table of service alerts, note this example requires the rich module (remove --rich to use without).
-```
-python main.py --service_alerts --rich
-```
-or 
-```
-python3 main.py --service_alerts --rich
-```
-#### Static Example
-Note this example requires the rich module (remove --rich to use without).
-```python
-python main.py --data routes --filter_name route_id --filter_value 10 --rich
-```
-or 
-```python
-python main.py --data routes --filter_name route_id --filter_value 10 --rich
-```
+
 ### Python Module
 #### Initialize Module:
 To use any of the functions you need to initialize the class at the start of the script.

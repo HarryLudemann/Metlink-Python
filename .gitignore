@@ -1,0 +1,14 @@
+.env
+.vscode
+__pycache__/
+*.py[cod]
+.pytest_cache/
+dist/
+build/
+metlink_python.egg-info/
+.coverage
+cov.xml
+main.py
+testing_gtfs.py
+test-cli.py
+test-module.py

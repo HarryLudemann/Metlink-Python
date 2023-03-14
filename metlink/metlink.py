@@ -19,7 +19,7 @@ class Metlink():
         Parameters:
                 API_KEY (str): API key to access Metlink API
     '''
-    __version__ = '0.0.7'
+    __version__ = '0.1.0'
 
     def __init__(self, API_KEY=None):
         self.API_KEY = API_KEY
@@ -66,7 +66,7 @@ class Metlink():
 
         return json.loads(r.data.decode('utf-8'))
 
-    def get_stops(self, trip: str = None, route: str = None):
+    def get_stops(self, trip_id: str = None, route_id: str = None, **kwargs):
         '''
             Gets stop information for all or a specific trip or route.
 
@@ -79,32 +79,21 @@ class Metlink():
                     dictionary contains information about a stop.
         '''
         url = const.STOPS_URL
-        if trip and route:
-            url += '?trip_id=' + trip + '&route_id=' + route
-        elif trip:
-            url += '?trip_id=' + trip
-        elif route:
-            url += '?route_id=' + route
+        if trip_id and route_id:
+            url += '?trip_id=' + trip_id + '&route_id=' + route_id
+        elif trip_id:
+            url += '?trip_id=' + trip_id
+        elif route_id:
+            url += '?route_id=' + route_id
         routes = []
         for entity in self.__get_metlink_data(url):
-            curr_route = {
-                'id': entity['id'],
-                'stop_id': entity['stop_id'],
-                'stop_code': entity['stop_code'],
-                'stop_name': entity['stop_name'],
-                'stop_desc': entity['stop_desc'],
-                'zone_id': entity['zone_id'],
-                'stop_lat': entity['stop_lat'],
-                'stop_lon': entity['stop_lon'],
-                'location_type': entity['location_type'],
-                'parent_station': entity['parent_station'],
-                'stop_url': entity['stop_url'],
-                'stop_timezone': entity['stop_timezone'],
-            }
+            curr_route = {}
+            for key in entity:
+                curr_route[key] = entity[key]
             routes.append(curr_route)
         return routes
 
-    def get_routes(self, stop_id: str = None):
+    def get_routes(self, stop_id: str = None, **kwargs):
         '''
             Gets route information for all or a specific stop.
 
@@ -121,22 +110,13 @@ class Metlink():
             url += '?stop_id=' + str(stop_id)
         routes = []
         for entity in self.__get_metlink_data(url):
-            route = {
-                'id': entity['id'],
-                'route_id': entity['route_id'],
-                'agency_id': entity['agency_id'],
-                'route_short_name': entity['route_short_name'],
-                'route_long_name': entity['route_long_name'],
-                'route_desc': entity['route_desc'],
-                'route_type': entity['route_type'],
-                'route_color': entity['route_color'],
-                'route_text_color': entity['route_text_color'],
-                'route_url': entity['route_url'],
-            }
+            route = {}
+            for key in entity:
+                route[key] = entity[key]
             routes.append(route)
         return routes
 
-    def get_vehicle_positions(self):
+    def get_vehicle_positions(self, **kwargs):
         '''
             Gets active bus locations.
 
@@ -157,7 +137,7 @@ class Metlink():
             vehicle_positions.append(vehicle_position)
         return vehicle_positions
 
-    def get_trip_updates(self):
+    def get_trip_updates(self, **kwargs):
         '''
             Gets Delays, cancellations, changed routes.
 
@@ -180,7 +160,7 @@ class Metlink():
             trip_updates.append(trip_update)
         return trip_updates
 
-    def get_service_alerts(self):
+    def get_service_alerts(self, **kwargs):
         '''
             Information about unforeseen
             events affecting routes, stops, or the network.
@@ -202,13 +182,11 @@ class Metlink():
                 'header_text': head,
                 'severity_level': entity['alert']['severity_level'],
                 'informed_entity': entity['alert']['informed_entity'],
-                # 'id': entity['alert']['id'],
-                # 'timestamp': entity['alert']['timestamp']
             }
             service_alerts.append(service_alert)
         return service_alerts
 
-    def get_stop_predictions(self, stop_id: str = None):
+    def get_stop_predictions(self, stop_id: str = None, **kwargs):
         '''
             Get all stop predictions for given stop.
 
@@ -225,21 +203,10 @@ class Metlink():
                  const.STOP_PREDICTIONS_URL + '?stop_id=' + str(stop_id))
             stop_predictions = []
             for stop in response['departures']:
-                prediction = {
-                    'service_id': stop['service_id'],
-                    'name': stop['name'],
-                    'vehicle_id': stop['vehicle_id'],
-                    'direction': stop['direction'],
-                    'status': stop['status'],
-                    'trip_id': stop['trip_id'],
-                    'delay': stop['delay'],
-                    'monitored': stop['monitored'],
-                    'operator': stop['operator'],
-                    'origin': stop['origin'],
-                    'wheelchair_accessible': stop['wheelchair_accessible'],
-                    'departure': stop['departure'],
-                    'arrival': stop['arrival']
-                }
+                prediction = {}
+                for key in stop:
+                    prediction[key] = stop[key]
+
                 stop_predictions.append(prediction)
             return stop_predictions
 
