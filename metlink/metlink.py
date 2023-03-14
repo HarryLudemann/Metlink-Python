@@ -87,20 +87,9 @@ class Metlink():
             url += '?route_id=' + route
         routes = []
         for entity in self.__get_metlink_data(url):
-            curr_route = {
-                'id': entity['id'],
-                'stop_id': entity['stop_id'],
-                'stop_code': entity['stop_code'],
-                'stop_name': entity['stop_name'],
-                'stop_desc': entity['stop_desc'],
-                'zone_id': entity['zone_id'],
-                'stop_lat': entity['stop_lat'],
-                'stop_lon': entity['stop_lon'],
-                'location_type': entity['location_type'],
-                'parent_station': entity['parent_station'],
-                'stop_url': entity['stop_url'],
-                'stop_timezone': entity['stop_timezone'],
-            }
+            curr_route = {}
+            for key in entity:
+                curr_route[key] = entity[key]
             routes.append(curr_route)
         return routes
 
@@ -121,18 +110,9 @@ class Metlink():
             url += '?stop_id=' + str(stop_id)
         routes = []
         for entity in self.__get_metlink_data(url):
-            route = {
-                'id': entity['id'],
-                'route_id': entity['route_id'],
-                'agency_id': entity['agency_id'],
-                'route_short_name': entity['route_short_name'],
-                'route_long_name': entity['route_long_name'],
-                'route_desc': entity['route_desc'],
-                'route_type': entity['route_type'],
-                'route_color': entity['route_color'],
-                'route_text_color': entity['route_text_color'],
-                'route_url': entity['route_url'],
-            }
+            route = {}
+            for key in entity:
+                route[key] = entity[key]
             routes.append(route)
         return routes
 
@@ -202,8 +182,6 @@ class Metlink():
                 'header_text': head,
                 'severity_level': entity['alert']['severity_level'],
                 'informed_entity': entity['alert']['informed_entity'],
-                # 'id': entity['alert']['id'],
-                # 'timestamp': entity['alert']['timestamp']
             }
             service_alerts.append(service_alert)
         return service_alerts
@@ -225,21 +203,10 @@ class Metlink():
                  const.STOP_PREDICTIONS_URL + '?stop_id=' + str(stop_id))
             stop_predictions = []
             for stop in response['departures']:
-                prediction = {
-                    'service_id': stop['service_id'],
-                    'name': stop['name'],
-                    'vehicle_id': stop['vehicle_id'],
-                    'direction': stop['direction'],
-                    'status': stop['status'],
-                    'trip_id': stop['trip_id'],
-                    'delay': stop['delay'],
-                    'monitored': stop['monitored'],
-                    'operator': stop['operator'],
-                    'origin': stop['origin'],
-                    'wheelchair_accessible': stop['wheelchair_accessible'],
-                    'departure': stop['departure'],
-                    'arrival': stop['arrival']
-                }
+                prediction = {}
+                for key in stop:
+                    prediction[key] = stop[key]
+                
                 stop_predictions.append(prediction)
             return stop_predictions
 

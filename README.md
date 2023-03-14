@@ -62,14 +62,6 @@ Arguments:
                                     filters: N/A
         --stop_predictions        Prints stop predictions,
                                     filters: --stop
-
-    Static Data Filters:
-        --filter_name FILTER_NAME       Select Filter Name
-        --filter_value FILTER_VALUE     Select Value Name
-    
-    Static Data Information to display:
-        --data-types                Show possible static data and their variables
-        --data NAME                 Prints static data, given name
 ```
 #### Optionally Install Rich Module
 Optionally you can install the rich module to visually make the returned tables more attractive.
@@ -89,15 +81,7 @@ or
 ```
 python3 main.py --service_alerts --rich
 ```
-#### Static Example
-Note this example requires the rich module (remove --rich to use without).
-```python
-python main.py --data routes --filter_name route_id --filter_value 10 --rich
-```
-or 
-```python
-python main.py --data routes --filter_name route_id --filter_value 10 --rich
-```
+
 ### Python Module
 #### Initialize Module:
 To use any of the functions you need to initialize the class at the start of the script.
