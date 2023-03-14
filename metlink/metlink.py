@@ -19,7 +19,7 @@ class Metlink():
         Parameters:
                 API_KEY (str): API key to access Metlink API
     '''
-    __version__ = '0.0.7'
+    __version__ = '0.1.0'
 
     def __init__(self, API_KEY=None):
         self.API_KEY = API_KEY
