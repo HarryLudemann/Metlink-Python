@@ -4,7 +4,7 @@ from metlink.constants import CLI_ARGUMENTS, CLI_HELP
 
 
 class CLI(argparse.ArgumentParser, Metlink):
-    def __init__(self, api_key:str, *args, **kwargs):
+    def __init__(self, api_key: str, *args, **kwargs):
         super().__init__(add_help=False, *args, **kwargs)
         self.metlink = Metlink(api_key)
         self.__add_args()
@@ -18,13 +18,15 @@ class CLI(argparse.ArgumentParser, Metlink):
             self.__handle_args(args)
 
     def __add_args(self):
-        self.add_argument( '-v', '--version', action='version', version=self.metlink.__version__ )
-        self.add_argument( '-h', '--help', action='store_true', help='Show this help message and exit' )
+        self.add_argument('-v', '--version', action='version',
+                          version=self.metlink.__version__)
+        self.add_argument('-h', '--help', action='store_true',
+                          help='Show this help message and exit')
         for arg in CLI_ARGUMENTS:
             self.add_argument(arg.pop('name'), **arg)
 
     def __handle_args(self, args):
-        print_table = print_standard_table if not args.rich else print_rich_table
+        print_table = standard_table if not args.rich else rich_table
         if args.stops:
             print_table(
                 'Stops Information',
@@ -68,7 +70,7 @@ class CLI(argparse.ArgumentParser, Metlink):
             )
 
 
-def print_standard_table(title, variables, data):
+def standard_table(title, variables, data):
     """
     Prints a table with the given title, variables and data.
 
@@ -90,7 +92,7 @@ def print_standard_table(title, variables, data):
         print()
 
 
-def print_rich_table(title, variables, data):
+def rich_table(title, variables, data):
     """
     Prints a table with the given title, variables and data.
     Using the rich library.

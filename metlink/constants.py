@@ -13,7 +13,7 @@ CLI_ARGUMENTS = [
         'name': '--rich',
         'action': 'store_true',
         'help': 'Use rich module to style table',
-    }, 
+    },
     # API Filters
     {
         'name': '--stop',
@@ -30,7 +30,7 @@ CLI_ARGUMENTS = [
         'action': 'store',
         'type': str,
         'help': 'Select Trip',
-    }, 
+    },
     # API Information to display
     {
         'name': '--stops',
